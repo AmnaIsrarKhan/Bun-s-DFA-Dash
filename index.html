@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bun's DFA Dash</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- START SCREEN -->
+  <div id="start-screen" class="screen">
+    <div class="bun-emoji">🐰</div>
+    <div class="big-title">Bun's DFA Dash!</div>
+    <div class="sub">Type DFA-accepted strings to jump over obstacles!<br>🍒 Catch fruits to restore lives · 3 lives · combos · chaos!</div>
+    <div class="lvl-grid" id="lvl-grid"></div>
+    <button class="start-btn" onclick="startGame()">Play Now! 🎮</button>
+    <button class="start-btn sec" onclick="toggleHowTo()">How to Play</button>
+    <div id="howto" class="howto-box" style="display:none">
+      🐰 <b>How to Play</b><br>
+      1. A DFA rule shows below the game — type a string it ACCEPTS<br>
+      2. Press <b>Jump!</b> or <b>Enter</b> → Bun leaps over the obstacle!<br>
+      3. Wrong string or getting hit = lose a life ♥<br>
+      4. 🍒 Cherry = +1 life · 🍋 Lemon = 2x score · ⭐ Star = invincible!<br>
+      5. Combo 3+ correct strings in a row → bonus points!<br>
+      <i>Green pills = accepted · Orange = rejected</i>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" style="display:none">
+    <div class="hud">
+      <div class="hud-pill" id="score-pill">score: 0</div>
+      <div class="hud-pill" id="lvl-pill">level 1/4</div>
+      <div class="hud-pill" id="combo-pill" style="display:none">🔥x1</div>
+      <div class="hud-pill" id="power-pill" style="display:none">⭐ invincible!</div>
+      <div class="hud-pill" id="lives-pill">♥♥♥</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="combo-banner" id="combo-banner">&nbsp;</div>
+    <div style="position:relative">
+      <canvas id="gc" width="640" height="185"></canvas>
+      <div id="lvlup-overlay" style="display:none" class="lvl-overlay">
+        <div class="lvl-overlay-txt" id="lvlup-txt">Level Up! 🎉</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="card">
+        <div class="card-lbl">DFA STATES</div>
+        <div class="snodes" id="snodes"></div>
+      </div>
+      <div class="card">
+        <div class="card-lbl">CHALLENGE</div>
+        <div class="ch-txt" id="ch-txt"></div>
+        <div class="ch-hint" id="ch-hint"></div>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="str-in" id="str-in" placeholder="type valid string → Enter to Jump!" maxlength="16" autocomplete="off" spellcheck="false">
+      <button class="go-btn" onclick="doJump()">Jump! 🐰</button>
+      <button class="go-btn sec-btn" onclick="doClear()">Clr</button>
+    </div>
+    <div class="verdict idle" id="verdict">Type a valid string and press Jump!</div>
+    <div class="exrow" id="exrow"></div>
+  </div>
+
+  <!-- GAME OVER SCREEN -->
+  <div id="over-screen" class="screen" style="display:none">
+    <div class="bun-emoji">💔</div>
+    <div class="big-title" style="color:#E65100">Game Over!</div>
+    <div class="sub" id="over-msg"></div>
+    <div class="stats-box" id="over-stats"></div>
+    <button class="start-btn" onclick="restartGame()">Try Again! 💪</button>
+    <button class="start-btn sec" onclick="goHome()">Main Menu</button>
+  </div>
+
+  <!-- WIN SCREEN -->
+  <div id="win-screen" class="screen" style="display:none">
+    <div class="bun-emoji">🌟</div>
+    <div class="big-title">You Won!! 🎊</div>
+    <div class="sub" id="win-msg"></div>
+    <div class="stats-box" id="win-stats"></div>
+    <button class="start-btn" onclick="restartGame()">Play Again! 🐰</button>
+    <button class="start-btn sec" onclick="goHome()">Main Menu</button>
+  </div>
+
+</div>
+<script src="dfa.js"></script>
+<script src="audio.js"></script>
+<script src="particles.js"></script>
+<script src="draw.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
